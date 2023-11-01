@@ -37,7 +37,9 @@ def filter_reports(report):
 
     # Print only the ministries with the highest keyword count
     for ministry, data in filtered_reports.items():
-        if data["keyword_count"] == max_keyword_count:
+        if max_keyword_count == 0:
+            return "Tidak menemukan kementerian dan lembaga yang dapat dituju."
+        elif data["keyword_count"] == max_keyword_count:
             return ministry
 
 # Filter the reports and count the keywords

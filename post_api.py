@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import nlp
+import text_blob
 
 app = Flask(__name__)
 
@@ -12,7 +13,7 @@ def post_example():
         return jsonify({"error": "Invalid JSON data"}), 400  # Return an error response
 
     # Process the received data (you can replace this with your own logic)
-    response_data = {"message": "Received data:", "ministry": nlp.filter_reports(data['report'])}
+    response_data = {"message": "Received data:", "data": text_blob.predicted_category(data['report'])}
 
     return jsonify(response_data), 200  # Return a JSON response
 

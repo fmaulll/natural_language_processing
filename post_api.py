@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import nlp
 import text_blob
+import send_email
 
 app = Flask(__name__)
 
@@ -11,9 +12,14 @@ def post_example():
 
     if data is None:
         return jsonify({"error": "Invalid JSON data"}), 400  # Return an error response
+    data_authorities = text_blob.predicted_category(data['report'])
 
+    if data_authorities['predicted_authorities']:
+        send_email.send_email("reporter@gmail.com", data['report'], data_authorities['predicted_authorities']) 
+        response_data = {"message": "Received data:", "data": data_authorities}
+    else:
+        response_data = {"message": "Invalid Report"}
     # Process the received data (you can replace this with your own logic)
-    response_data = {"message": "Received data:", "data": text_blob.predicted_category(data['report'])}
 
     return jsonify(response_data), 200  # Return a JSON response
 

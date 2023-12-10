@@ -14,11 +14,11 @@ def post_example():
         return jsonify({"error": "Invalid JSON data"}), 400  # Return an error response
     data_authorities = text_blob.predicted_category(data['report'])
 
-    if data_authorities['predicted_authorities']:
-        send_email.send_email("reporter@gmail.com", data['report'], data_authorities['predicted_authorities']) 
-        response_data = {"message": "Received data:", "data": data_authorities}
-    else:
-        response_data = {"message": "Invalid Report"}
+    # if data_authorities['predicted_authorities']:
+    #     send_email.send_email("reporter@gmail.com", data['report'], data_authorities['predicted_authorities']) 
+    response_data = {"message": "Received data:", "data": data_authorities}
+    # else:
+    # response_data = {"message": "Invalid Report"}
     # Process the received data (you can replace this with your own logic)
 
     return jsonify(response_data), 200  # Return a JSON response

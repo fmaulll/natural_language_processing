@@ -211,6 +211,13 @@
             // Prevent the default form submission behavior
             event.preventDefault();
 
+            const report = document.getElementById('report').value
+
+            if (report.split("").length < 20) {
+                alert("Kurang bang")
+                return
+            }
+
             const dataRequest = {
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,

@@ -7,7 +7,6 @@ import send_email
 app = Flask(__name__)
 
 @app.route('/')
-@app.route('/<name>')
 def report(name=None):
     return render_template('index.html', name=name)
 

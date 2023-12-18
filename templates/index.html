@@ -170,47 +170,81 @@
 </head>
 
 <body>
+    <div id="loading" style="display: none; justify-content: center; align-items: center; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0, 0, 0, 0.2);z-index: 1;">
+        <div style="background-color: white; padding: 10px 16px;">Loading...</div>
+    </div>
+    <div id="sent" style="display: none; justify-content: center; align-items: center; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0, 0, 0, 0.2);z-index: 1;">
+        <div id="sentMessage" style="background-color: white; padding: 10px 16px;">Loading...</div>
+    </div>
     <div class="testbox">
-        <form action="/submit" method="post">
-            <div class="banner">
+        <form id="myForm">
+            <div class=" banner">
                 <h1>Public Report Form</h1>
             </div>
             <div class="item">
                 <p>Nama Lengkap</p>
                 <div class="name-item">
-                    <input type="text" name="name" placeholder="Masukkan Nama Anda" />
+                    <input id="name" type="text" name="name" placeholder="Masukkan Nama Anda" />
                 </div>
             </div>
             <div class="item">
                 <p>Email</p>
-                <input type="email" name="email" />
+                <input id="email" type="email" name="email" />
             </div>
             <div class="item">
                 <p>Phone</p>
-                <input type="text" name="phone" placeholder="### ### ####" />
+                <input id="phone" type="text" name="phone" placeholder="### ### ####" />
             </div>
             <div class="item">
-                <p>Reservation Date</p>
-                <input type="date" name="bdate" required />
-                <i class="fas fa-calendar-alt"></i>
-            </div>
-            <div class="item">
-                <p>Reservation Time</p>
-                <input type="time" name="btime" required />
-            </div>
-            <div class="item">
-                <p>How many people will you be with?</p>
-                <input type="text" name="language" />
-            </div>
-            <div class="item">
-                <p>Additional notes</p>
-                <textarea rows="3"></textarea>
+                <p>Complain</p>
+                <textarea id="report" name="report" placeholder=""></textarea>
             </div>
             <div class="btn-block">
-                <button type="submit" href="/">Send</button>
+                <button type="submit">Send</button>
             </div>
         </form>
     </div>
+
+
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function (event) {
+            // Prevent the default form submission behavior
+            event.preventDefault();
+
+            const dataRequest = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                report: document.getElementById('report').value,
+            }
+
+            document.getElementById('loading').style.display = 'flex'
+
+            fetch('/api/post_example', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ data: dataRequest })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    document.getElementById('loading').style.display = 'none'
+                    document.getElementById('sent').style.display = 'flex'
+                    document.getElementById('sentMessage').innerHTML = `
+                    Your report has been sent to <span style="font-weight: 600;">${data.data.name}</span>
+                    `
+                    setTimeout(() => {
+                        document.getElementById('sent').style.display = 'none'
+                    }, 3000)
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('loading').style.display = 'none'
+                });
+        });
+    </script>
 </body>
 
 </html>

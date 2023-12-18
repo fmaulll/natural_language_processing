@@ -7,21 +7,35 @@ password = "gvmk xphz xfyy zoov"
 # Create a secure SSL context
 context = ssl.create_default_context()
 
+def send_to_name(authorities):
+    if authorities == 'dinas-kependudukan-dan-pencatatan-sipil-Kota-bandung':
+        return 'Dinas Kependudukan dan Pencatatan Sipil Kota Bandung'
+    
+    elif authorities == 'dinas-sumber-daya-air-dan-bina-marga-kota-bandung':
+        return 'Dinas Sumber Daya Air dan Bina Marga Kota Bandung'
+    
+    elif authorities == 'dinas-perhubungan-kota-bandung':
+        return 'Dinas Perhubungan Kota Bandung'
+    
+    elif authorities == 'satuan-polisi-pamong-praja-Kota-bandung':
+        return 'SATPOL PP Kota Bandung'
+    
+    else:
+        return ''
+
 def send_to(authorities):
-    if authorities == 'Dinas Kependudukan dan Pencatatan Sipil Kota Bandung':
+    if authorities == 'dinas-kependudukan-dan-pencatatan-sipil-Kota-bandung':
         return 'bandung.disdukcapil@gmail.com'
     
-    elif authorities == 'Dinas Sumberdaya Air dan Bina Marga Kota Bandung':
+    elif authorities == 'dinas-sumber-daya-air-dan-bina-marga-kota-bandung':
         return 'bandung.dsdabm@gmail.com'
     
-    elif authorities == 'Dinas Perhubungan Kota':
+    elif authorities == 'dinas-perhubungan-kota-bandung':
         return 'bdg.dishub@gmail.com'
     
-    elif authorities == 'Satuan Polisi Pamong Praja Kota Bandung':
+    elif authorities == 'satuan-polisi-pamong-praja-Kota-bandung':
         return 'bandung.satpolpp@gmail.com'
     
-    elif authorities == 'Dinas Perhubungan Kota':
-        return 'bandung.satpolpp@gmail.com'
     else:
         return ''
     
@@ -32,7 +46,9 @@ def send_email(sender, report, authorities):
         # TODO: Send email here
         receiver_email = send_to(authorities)
         message = f"""\
-        Subject: Email from {sender} for {authorities}
+        Subject: 
+
+        Email from {sender} for {send_to_name(authorities)}
 
         {report}"""
 
@@ -40,3 +56,4 @@ def send_email(sender, report, authorities):
 
         # TODO: Send email here
         server.sendmail(sender_email, receiver_email, message)
+        print('Sent!')
